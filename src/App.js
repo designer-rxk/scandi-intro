@@ -1,26 +1,28 @@
 import {Routes, Route} from "react-router-dom";
 import {Navbar} from "./components";
-import {StateContext} from "./context/StateContext";
-import {Home, Product} from "./pages";
+import {ShoppingCartProvider} from "./context/StateContext";
+import { Home, Product } from "./pages";
 import "./styles.css";
-import {useState} from "react";
+import React, {useState} from "react";
+import {useLocalStorage} from "./hooks/useLocalStorage";
 
 const App = () => {
-    const [activeCurrency, setActiveCurrency] = useState(0);
+    const [activeCurrency, setActiveCurrency] = useLocalStorage('currency', 0);
     const [activeSection, setActiveSection] = useState('');
-    const [activeProduct, setActiveProduct] = useState('');
 
-  return (
-      <div className={"container"}>
-        <Navbar activeCurrency={activeCurrency} setActiveCurrency={setActiveCurrency} activeSection={activeSection}/>
-          <Routes>
-            <Route path={"/"} element={<Home activeCurrency={activeCurrency} setActiveSection={setActiveSection} setActiveProduct={setActiveProduct}/>}/>
-            <Route path={"/all"} element={<Home activeCurrency={activeCurrency} setActiveSection={setActiveSection} setActiveProduct={setActiveProduct}/>}/>
-            <Route path={"/clothes"} element={""}/>
-            <Route path={"/tech"} element={""}/>
-            <Route path={"/product/:id"} element={<Product activeProduct={activeProduct}/>}/>
-          </Routes>
-    </div>
-  );
+    return (
+      <ShoppingCartProvider>
+            <Navbar activeCurrency={activeCurrency} setActiveCurrency={setActiveCurrency} activeSection={activeSection} activeCurrency={activeCurrency}/>
+              <div className={"container"}>
+              <Routes>
+                <Route path={"/"} element={<Home activeCurrency={activeCurrency} setActiveSection={setActiveSection} fetchVar={""}/>}/>
+                <Route path={"/all"} element={<Home activeCurrency={activeCurrency} setActiveSection={setActiveSection} fetchVar={""}/>}/>
+                <Route path={"/clothes"} element={<Home activeCurrency={activeCurrency} setActiveSection={setActiveSection} fetchVar={"clothes"}/>}/>
+                <Route path={"/tech"} element={<Home activeCurrency={activeCurrency} setActiveSection={setActiveSection} fetchVar={"tech"}/>}/>
+                <Route path={"/product/:id"} element={<Product setActiveSection={setActiveSection} activeCurrency={activeCurrency}/>}/>
+              </Routes>
+        </div>
+      </ShoppingCartProvider>
+    );
 }
 export default App;

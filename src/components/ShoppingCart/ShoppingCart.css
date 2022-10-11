@@ -1,0 +1,23 @@
+.sh-cart-wrapper{
+    width:100%;
+    height:calc(100% - 7.5vh);
+    margin-top:7.5vh;
+    top:0;
+    left:0;
+    background: rgba(0, 0, 0, 0.2);
+    position:fixed;
+    z-index: 400;
+    cursor: pointer;
+
+}
+.sh-cart-background{
+    background: white;
+    width:20rem;
+    height:20rem;
+    right:3rem;
+    position: absolute;
+    cursor: auto;
+}
+.sh-cart-ol-wrapper{
+
+}

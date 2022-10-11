@@ -37,6 +37,7 @@ query Query($productId: String!) {
   product(id: $productId) {
     id
     name
+    inStock
     gallery
     description
     category
@@ -61,7 +62,24 @@ query Query($productId: String!) {
   }
 }
 `
-
-export const PRODUCT_QUERY_VARIABLE = `
-"productId": "huarache-x-stussy-le"
+export const LOAD_ITEMS = `
+query Category($input:CategoryInput) {
+  category(input: $input) {
+    name
+    products {
+      name
+      id
+      inStock
+      category
+      gallery
+      prices {
+        amount
+        currency {
+          label
+          symbol
+        }
+      }
+    }
+  }
+}
 `

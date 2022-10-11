@@ -1,21 +1,19 @@
 import React, {useEffect, useState} from "react";
 import "./Home.css";
-import {ALL_PRODUCT_QUERY} from "../../utils/GraphQL/Query";
+import { LOAD_ITEMS } from "../../utils/GraphQL/Query";
 
-const Home = ({ activeCurrency, setActiveSection, setActiveProduct }) => {
+const Home = ({ activeCurrency, setActiveSection, fetchVar }) => {
     const [displayImages, setDisplayImages] = useState([]);
 
-    useEffect(() => {
-        setActiveSection('all');
-        fetch(process.env.REACT_APP_BACKEND_URL,{
-            method: "POST",
-            headers: {"Content-Type":"application/json"},
-            body: JSON.stringify({query:ALL_PRODUCT_QUERY})
-        }).then(response => response.json()).then(response => setDisplayImages(response.data.category.products));
-    },[])
+        useEffect(() => {
+            fetch(process.env.REACT_APP_BACKEND_URL,{
+                method: "POST",
+                headers: {"Content-Type":"application/json"},
+                body: JSON.stringify({query:LOAD_ITEMS,variables:`{"input": {"title": "${fetchVar}"}}`})
+            }).then(response => response.json()).then(response => setDisplayImages(response.data.category.products) & setActiveSection(response.data.category.name));
+        },[])
 
     const ChangeURL = (id) => {
-        setActiveProduct(id);
         window.location.href=(`/product/${id}`);
     }
 

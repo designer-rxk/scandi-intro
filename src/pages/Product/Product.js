@@ -1,12 +1,36 @@
 import {useParams} from "react-router-dom";
 import React, {useEffect, useState} from "react";
 import {SINGLE_PRODUCT_QUERY} from "../../utils/GraphQL/Query";
+import "./Product.css";
+import {useShoppingCart} from "../../context/StateContext";
 
-const Product = () => {
+const Product = ({ setActiveSection, activeCurrency }) => {
     const params = useParams();
     const [mainDisplay, setMainDisplay] = useState([]);
     const [productGallery, setProductGallery] = useState([]);
     const [productInfo, setProductInfo] = useState([]);
+    const [productOptions, setProductOptions] = useState([]);
+    const [productPrice, setProductPrice] = useState([]);
+    const [productSymbol, setProductSymbol] = useState([]);
+
+
+    const {getItemQuantity, increaseCartQuantity, cartItems} = useShoppingCart();
+    const quantity = getItemQuantity(params.id);
+
+    // console.log(productOptions)
+
+    const checkProduct = (e) =>{
+        console.log(e.currentTarget.id)
+
+        for(let i=0; i <= productOptions[0].items.length -1;i++){
+            console.log(productOptions[0].items[i].id)
+            if(productOptions[0].items[i].id !== e.currentTarget.id){
+                document.getElementById(productOptions[0].items[i].id).style.color = "red";
+            }
+        }
+    }
+
+
 
     useEffect(() => {
         fetch(process.env.REACT_APP_BACKEND_URL,{
@@ -14,26 +38,55 @@ const Product = () => {
             headers: {"Content-Type":"application/json"},
             body: JSON.stringify({query:SINGLE_PRODUCT_QUERY, variables:`{"productId": "${params.id}"}`})
         }).then(response => response.json()).then(response => setProductGallery(response.data.product.gallery) & setMainDisplay(response.data.product.gallery[0])
-        & console.log(response.data.product) & (setProductInfo(response.data.product))
-
+         & (setProductInfo(response.data.product) & setProductOptions(response.data.product.attributes) & setActiveSection(response.data.product.category)
+            & setProductPrice(response.data.product.prices[activeCurrency]) & setProductSymbol(response.data.product.prices[activeCurrency].currency.symbol))
         );
-    },[])
-
-    console.log(productInfo)
-
+    },[activeCurrency])
     return(
         <div className={"product-page-wrapper"}>
             <div className={"product-image-box"}>
-                {productGallery.map(items => (
-                    <img src={items} alt={""} key={items}/>
-                ))}
-
+                <div className={"product-image-individual"}>
+                    {productGallery.map(items => (
+                        <img src={items} alt={""} key={items} className={"product-display-images"} onClick={() => setMainDisplay(items)}/>
+                    ))}
+                </div>
             </div>
             <div className={"product-main-image"}>
-                <img src={mainDisplay}/>{console.log(mainDisplay)}
+                <img src={mainDisplay} alt={"mainDisplay"} className={"product-main-display-image"}/>
             </div>
             <div className={"product-desc-box"}>
-                {productInfo.name} {productInfo.description}
+                <h1 className={"product-name"}>{productInfo.name}</h1>
+                <h2 className={"product-description"}>{productInfo.brand}</h2>
+
+                <div className={"product-options"}>
+                    <div>{productOptions.map((items)=>(
+                        <div key={items.id}>
+                            <div className={"product-options-name"}>{items.name}:</div>
+                            {items.type === 'swatch' ? (
+                                <div className={"product-options-box"}>
+                                    {items.items.map((options)=>(
+                                    <button key={options.id} className={"product-options-items"} style={{background:options.value}} id={options.id}
+                                            onClick={checkProduct}/>
+                                ))}
+                                </div>
+                            ) : (
+                                <div className={"product-options-box"}>{items.items.map((options)=>(
+                                    <button key={options.id} className={"product-options-items"} id={options.id}
+                                            onClick={checkProduct}>{options.displayValue}</button>
+                                ))}
+                                </div>
+                            )}
+                        </div>
+                    ))}
+                        <div className={"product-options-name"}>PRICE:</div>
+                        <div className={"product-price"}>{productSymbol} {productPrice.amount}</div>
+                        <div className={"product-center"}>
+                            <button className={"product-add"} onClick={()=>increaseCartQuantity(params.id)}>ADD TO CART</button>
+                        </div>
+                        <div className={"product-description text"} dangerouslySetInnerHTML={{ __html: productInfo.description}}/>
+                    </div>
+
+                </div>
             </div>
         </div>
     )

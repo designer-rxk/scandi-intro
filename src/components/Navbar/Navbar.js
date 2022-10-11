@@ -3,8 +3,10 @@ import {CATEGORY_QUERY} from "../../utils/GraphQL/Query";
 import "./Navbar.css"
 import {BsFillFilterSquareFill} from "react-icons/bs";
 import {FiShoppingCart} from "react-icons/fi";
+import {useShoppingCart} from "../../context/StateContext";
 
-const Navbar = ({ setActiveCurrency, activeSection }) =>{
+const Navbar = ({ setActiveCurrency, activeSection, activeCurrency }) =>{
+    const { openCart, cartQuantity } = useShoppingCart()
     const totalQuantities = 9;
     const [Categories, setCategories] = useState([]);
     const [Currencies, setCurrencies] = useState([]);
@@ -14,12 +16,12 @@ const Navbar = ({ setActiveCurrency, activeSection }) =>{
     }
 
     useEffect(() => {
+        document.getElementById("currSelect").selectedIndex = activeCurrency;
         fetch(process.env.REACT_APP_BACKEND_URL,{
             method: "POST",
             headers: {"Content-Type":"application/json"},
             body: JSON.stringify({query:CATEGORY_QUERY})
         }).then(response => response.json()).then(response => setCurrencies(response.data.currencies) & setCategories(response.data.categories));
-
     },[])
 
     return(
@@ -36,19 +38,18 @@ const Navbar = ({ setActiveCurrency, activeSection }) =>{
                     {<BsFillFilterSquareFill/>}
                 </a>
                 <div className={"nav-curr-cart-container"}>
-                    <select name={"currencies"} id={"currencies"} onChange={(e)=>handleChange(e)}>
+                    <select name={"currencies"} id={"currSelect"} onChange={(e)=>handleChange(e)} >
                         {Currencies.map((item) =>(
-                            <option className={"nav-curr"} key={item.label} value={item.label}>{item.symbol}</option>
+                            <option className={"nav-curr"} key={item.label} value={item.label} >{item.symbol}</option>
                             ))}
                     </select>
-                    <div className={"nav-cart-n-item"}>
+                    <button className={"nav-cart-n-item"} onClick={openCart}>
                         {totalQuantities > 0 && (
                             <span className={"nav-cart-items"}>{totalQuantities}</span>
                         )}
                         <FiShoppingCart/>
-                    </div>
+                    </button>
                 </div>
-
             </div>
         </div>
     )

@@ -1,9 +1,13 @@
 .nav-container{
     height:7.5vh;
+    width:calc(100% - 12rem);
+    background: white;
+    z-index: 300;
 }
 .nav-sections{
     display: flex;
     height:100%;
+    width:calc(100vw - 12rem);
     font-weight: 400;
     justify-content: space-between;
 }
@@ -75,6 +79,9 @@ select{
     height:3rem;
     margin: 0 1rem;
     cursor: pointer;
+    border: none;
+    background: none;
+    font-size: 2rem;
 }
 .active{
     color:var(--green);
