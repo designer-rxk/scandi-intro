@@ -13,7 +13,7 @@
     cursor: pointer;
     background: none;
     border: none;
-    height:25vw;
+    height:26.5vw;
     width:26.5vw;
     transition-duration: 0.3s;
     border-radius: 5px;
@@ -46,7 +46,8 @@
     display: flex;
 }
 .home-price{
-    font-weight: 500;
+    font-weight: 600;
+    letter-spacing: 0.05em;
     color:black;
 }
 .home-name{

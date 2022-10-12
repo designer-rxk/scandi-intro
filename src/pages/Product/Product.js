@@ -13,25 +13,17 @@ const Product = ({ setActiveSection, activeCurrency }) => {
     const [productPrice, setProductPrice] = useState([]);
     const [productSymbol, setProductSymbol] = useState([]);
 
+    const { increaseCartQuantity } = useShoppingCart();
+    const len = productOptions.length -1;
+    const itemsToFill = [];
 
-    const {getItemQuantity, increaseCartQuantity, cartItems} = useShoppingCart();
-    const quantity = getItemQuantity(params.id);
-
-    // console.log(productOptions)
-
-    const checkProduct = (e) =>{
-        console.log(e.currentTarget.id)
-
-        for(let i=0; i <= productOptions[0].items.length -1;i++){
-            console.log(productOptions[0].items[i].id)
-            if(productOptions[0].items[i].id !== e.currentTarget.id){
-                document.getElementById(productOptions[0].items[i].id).style.color = "red";
-            }
+    const checkProduct = (e, id) =>{
+        for(let i=0;i<=len;i++){
+            itemsToFill.push([productOptions[i].id,''])
+            if(itemsToFill.length -1 > len) itemsToFill.splice(len+1);
+            if(productOptions[i].id === id) itemsToFill[i].splice(1,1,e.currentTarget.id);
         }
     }
-
-
-
     useEffect(() => {
         fetch(process.env.REACT_APP_BACKEND_URL,{
             method: "POST",
@@ -42,6 +34,19 @@ const Product = ({ setActiveSection, activeCurrency }) => {
             & setProductPrice(response.data.product.prices[activeCurrency]) & setProductSymbol(response.data.product.prices[activeCurrency].currency.symbol))
         );
     },[activeCurrency])
+
+    const SendToCart = () => {
+        if(itemsToFill.length === 0 && len >= 0) {
+            alert("Fill out the specifications!");
+            return;
+        }
+        if(itemsToFill.every(x => x.every(a => a !== '')) === true){
+            increaseCartQuantity(params.id, itemsToFill);
+        }else{
+            alert("Fill out the specifications!");
+        }
+    }
+
     return(
         <div className={"product-page-wrapper"}>
             <div className={"product-image-box"}>
@@ -66,13 +71,13 @@ const Product = ({ setActiveSection, activeCurrency }) => {
                                 <div className={"product-options-box"}>
                                     {items.items.map((options)=>(
                                     <button key={options.id} className={"product-options-items"} style={{background:options.value}} id={options.id}
-                                            onClick={checkProduct}/>
+                                            onClick={(e)=>checkProduct(e,items.id)}/>
                                 ))}
                                 </div>
                             ) : (
                                 <div className={"product-options-box"}>{items.items.map((options)=>(
                                     <button key={options.id} className={"product-options-items"} id={options.id}
-                                            onClick={checkProduct}>{options.displayValue}</button>
+                                            onClick={(e)=>checkProduct(e,items.id)}>{options.value}</button>
                                 ))}
                                 </div>
                             )}
@@ -81,7 +86,7 @@ const Product = ({ setActiveSection, activeCurrency }) => {
                         <div className={"product-options-name"}>PRICE:</div>
                         <div className={"product-price"}>{productSymbol} {productPrice.amount}</div>
                         <div className={"product-center"}>
-                            <button className={"product-add"} onClick={()=>increaseCartQuantity(params.id)}>ADD TO CART</button>
+                            <button className={"product-add"} onClick={()=>SendToCart()}>ADD TO CART</button>
                         </div>
                         <div className={"product-description text"} dangerouslySetInnerHTML={{ __html: productInfo.description}}/>
                     </div>

@@ -33,7 +33,7 @@ const Home = ({ activeCurrency, setActiveSection, fetchVar }) => {
                                     {item.name}
                                 </div>
                                 <div className={"home-item-desc home-price"}>
-                                    {item.prices[activeCurrency].currency.symbol} {item.prices[activeCurrency].amount}
+                                    {item.prices[activeCurrency].currency.symbol}{item.prices[activeCurrency].amount}
                                 </div>
                             </button>
                             ) : (
@@ -48,7 +48,7 @@ const Home = ({ activeCurrency, setActiveSection, fetchVar }) => {
                                     {item.name}
                                 </div>
                                 <div className={"home-item-desc home-price"}>
-                                    {item.prices[activeCurrency].currency.symbol} {item.prices[activeCurrency].amount}
+                                    {item.prices[activeCurrency].currency.symbol}{item.prices[activeCurrency].amount}
                             </div>
                         </a>)
                     ))}

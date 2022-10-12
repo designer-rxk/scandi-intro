@@ -1,0 +1,24 @@
+.cart-title{
+    font-size: 2rem;
+    font-weight: 700;
+    height:10rem;
+    display: flex;
+    align-items: center;
+}
+.cart-main{
+    border-top:1px solid #E5E5E5;
+    border-bottom:1px solid #E5E5E5;
+    padding:1rem;
+}
+.cart-tax-quantity{
+    font-weight: 400;
+    font-size: 1.2rem;
+}
+.cart-total{
+    font-weight: 500;
+    font-size: 1.2rem;
+}
+.cart-bold-text{
+    font-weight: 700;
+    size: 1.2rem;
+}

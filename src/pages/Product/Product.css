@@ -86,6 +86,6 @@
     margin-top:1rem;
     font-size: 1.1rem;
 }
-.product-options-items:active:after{
-    border: 5px solid red;
+.actiive{
+    border: 1px solid red;
 }

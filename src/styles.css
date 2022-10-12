@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@100;200;300;400;500;600;700;800;900&display=swap');
 
 :root{
     --green: #9AE0AD;
@@ -8,10 +8,11 @@
 body{
     padding: 0;
     margin: 0 6rem;
-    font-family: Inter, sans-serif;
+    font-family: Raleway, sans-serif;
 }
 *, *::before, *::after{
     box-sizing: border-box;
+    font-family: Raleway, sans-serif;
 }
 ::-webkit-scrollbar {
     display: none;

@@ -10,10 +10,7 @@ export function useShoppingCart() {
 
 export function ShoppingCartProvider({ children }) {
     const [isOpen, setIsOpen] = useState(false)
-    const [cartItems, setCartItems] = useLocalStorage(
-        "shopping-cart",
-        []
-    )
+    const [cartItems, setCartItems] = useLocalStorage("shopping-cart", [])
 
     const cartQuantity = cartItems.reduce(
         (quantity, item) => item.quantity + quantity, 0
@@ -25,14 +22,14 @@ export function ShoppingCartProvider({ children }) {
     function getItemQuantity(id) {
         return cartItems.find((item) => item.id === id)?.quantity || 0
     }
-    function increaseCartQuantity(id) {
+    function increaseCartQuantity(id, specifications) {
         setCartItems((currItems) => {
             if (currItems.find((item) => item.id === id) == null) {
-                return [...currItems, { id, quantity: 1 }]
+                return [...currItems, { id, quantity: 1, specifications }]
             } else {
                 return currItems.map((item) => {
                     if (item.id === id) {
-                        return { ...item, quantity: item.quantity + 1 }
+                        return { ...item, quantity: item.quantity + 1, specifications }
                     } else {
                         return item
                     }

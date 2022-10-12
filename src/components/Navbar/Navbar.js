@@ -7,9 +7,10 @@ import {useShoppingCart} from "../../context/StateContext";
 
 const Navbar = ({ setActiveCurrency, activeSection, activeCurrency }) =>{
     const { openCart, cartQuantity } = useShoppingCart()
-    const totalQuantities = 9;
     const [Categories, setCategories] = useState([]);
     const [Currencies, setCurrencies] = useState([]);
+
+    const selected = 3;
 
     const handleChange = (e) =>{
         setActiveCurrency(e.target.selectedIndex);
@@ -38,14 +39,14 @@ const Navbar = ({ setActiveCurrency, activeSection, activeCurrency }) =>{
                     {<BsFillFilterSquareFill/>}
                 </a>
                 <div className={"nav-curr-cart-container"}>
-                    <select name={"currencies"} id={"currSelect"} onChange={(e)=>handleChange(e)} >
+                    <select name={"currencies"} id={"currSelect"} onChange={(e)=>handleChange(e)} value={selected}>
                         {Currencies.map((item) =>(
                             <option className={"nav-curr"} key={item.label} value={item.label} >{item.symbol}</option>
                             ))}
                     </select>
                     <button className={"nav-cart-n-item"} onClick={openCart}>
-                        {totalQuantities > 0 && (
-                            <span className={"nav-cart-items"}>{totalQuantities}</span>
+                        {cartQuantity > 0 && (
+                            <span className={"nav-cart-items"}>{cartQuantity}</span>
                         )}
                         <FiShoppingCart/>
                     </button>
