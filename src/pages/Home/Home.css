@@ -20,6 +20,7 @@
 }
 .home-feat-item-box:hover{
     box-shadow: 1px 1px 15px -1px rgba(125,125,125,0.75);
+    transform: scale(1.02);
 }
 .home-item-img{
     height:20vw;

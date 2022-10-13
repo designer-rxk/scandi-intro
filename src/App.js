@@ -11,7 +11,7 @@ const App = () => {
     const [activeSection, setActiveSection] = useState('');
 
     return (
-      <ShoppingCartProvider>
+      <ShoppingCartProvider activeCurrency={activeCurrency}>
             <Navbar activeCurrency={activeCurrency} setActiveCurrency={setActiveCurrency} activeSection={activeSection} activeCurrency={activeCurrency}/>
               <div className={"container"}>
               <Routes>

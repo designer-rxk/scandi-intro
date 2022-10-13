@@ -22,14 +22,20 @@ export function ShoppingCartProvider({ children }) {
     function getItemQuantity(id) {
         return cartItems.find((item) => item.id === id)?.quantity || 0
     }
-    function increaseCartQuantity(id, specifications) {
+    const addToCart = (id, specifications, params, imgGallery, name, brand, prices, options) => {
         setCartItems((currItems) => {
             if (currItems.find((item) => item.id === id) == null) {
-                return [...currItems, { id, quantity: 1, specifications }]
+                console.log("Added '"+name+"' to the cart!")
+                return [...currItems, { id, quantity: 1, specifications, params, imgGallery, name, brand, prices, options }]
             } else {
                 return currItems.map((item) => {
+                    console.log("Added '"+name+"' to the cart!")
                     if (item.id === id) {
-                        return { ...item, quantity: item.quantity + 1, specifications }
+                        if((JSON.stringify(item.specifications) === JSON.stringify(specifications))){
+                            return { ...item, quantity: item.quantity + 1, specifications, params, imgGallery, name, brand, prices, options }
+                        }else{
+                            return [...currItems, { id, quantity: 1, specifications, params, imgGallery, name, brand, prices, options }]
+                        }
                     } else {
                         return item
                     }
@@ -37,6 +43,22 @@ export function ShoppingCartProvider({ children }) {
             }
         })
     }
+    function increaseCartQuantity(id){
+        setCartItems((currItems) => {
+            if (currItems.find((item) => item.id === id) == null) {
+                return [...currItems, { id, quantity: 1 }]
+            } else {
+                return currItems.map((item) => {
+                    if (item.id === id) {
+                        return { ...item, quantity: item.quantity + 1 }
+                    } else {
+                        return item
+                    }
+                })
+            }
+        })
+    }
+
     function decreaseCartQuantity(id) {
         setCartItems((currItems) => {
             if (currItems.find((item) => item.id === id)?.quantity === 1) {
@@ -67,7 +89,7 @@ export function ShoppingCartProvider({ children }) {
 
     return (
         <ShoppingCartContext.Provider
-            value={{getItemQuantity, increaseCartQuantity, removeFromCart, openCart, closeCart, cartItems, cartQuantity,}}>
+            value={{getItemQuantity, addToCart, increaseCartQuantity, decreaseCartQuantity, removeFromCart, openCart, closeCart, cartItems, cartQuantity,}}>
             {children}
             {isOpen === true && <ShoppingCart isOpen={isOpen} setIsOpen={setIsOpen}/> }
         </ShoppingCartContext.Provider>

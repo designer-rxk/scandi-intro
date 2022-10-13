@@ -10,9 +10,8 @@ const Navbar = ({ setActiveCurrency, activeSection, activeCurrency }) =>{
     const [Categories, setCategories] = useState([]);
     const [Currencies, setCurrencies] = useState([]);
 
-    const selected = 3;
-
     const handleChange = (e) =>{
+        console.log(e.target.selectedIndex);
         setActiveCurrency(e.target.selectedIndex);
     }
 
@@ -23,7 +22,7 @@ const Navbar = ({ setActiveCurrency, activeSection, activeCurrency }) =>{
             headers: {"Content-Type":"application/json"},
             body: JSON.stringify({query:CATEGORY_QUERY})
         }).then(response => response.json()).then(response => setCurrencies(response.data.currencies) & setCategories(response.data.categories));
-    },[])
+    },[activeCurrency])
 
     return(
         <div className={"nav-container"}>
@@ -39,7 +38,7 @@ const Navbar = ({ setActiveCurrency, activeSection, activeCurrency }) =>{
                     {<BsFillFilterSquareFill/>}
                 </a>
                 <div className={"nav-curr-cart-container"}>
-                    <select name={"currencies"} id={"currSelect"} onChange={(e)=>handleChange(e)} value={selected}>
+                    <select name={"currencies"} id={"currSelect"} onChange={(e)=>handleChange(e)}>
                         {Currencies.map((item) =>(
                             <option className={"nav-curr"} key={item.label} value={item.label} >{item.symbol}</option>
                             ))}

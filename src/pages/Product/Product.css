@@ -58,6 +58,12 @@
     border: 1px solid black;
     cursor: pointer;
     font-size: 1.2rem;
+    transition-duration: 0.3s;
+}
+.product-options-items:hover{
+    color:white;
+    background: black;
+    transform: scale(1.1);
 }
 .product-price{
     font-weight: 700;

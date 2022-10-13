@@ -3,6 +3,7 @@ import React, {useEffect, useState} from "react";
 import {SINGLE_PRODUCT_QUERY} from "../../utils/GraphQL/Query";
 import "./Product.css";
 import {useShoppingCart} from "../../context/StateContext";
+import cart from "../Cart/Cart";
 
 const Product = ({ setActiveSection, activeCurrency }) => {
     const params = useParams();
@@ -12,8 +13,9 @@ const Product = ({ setActiveSection, activeCurrency }) => {
     const [productOptions, setProductOptions] = useState([]);
     const [productPrice, setProductPrice] = useState([]);
     const [productSymbol, setProductSymbol] = useState([]);
+    const [passablePrice, setPassablePrice] = useState([]);
 
-    const { increaseCartQuantity } = useShoppingCart();
+    const { addToCart } = useShoppingCart();
     const len = productOptions.length -1;
     const itemsToFill = [];
 
@@ -31,7 +33,8 @@ const Product = ({ setActiveSection, activeCurrency }) => {
             body: JSON.stringify({query:SINGLE_PRODUCT_QUERY, variables:`{"productId": "${params.id}"}`})
         }).then(response => response.json()).then(response => setProductGallery(response.data.product.gallery) & setMainDisplay(response.data.product.gallery[0])
          & (setProductInfo(response.data.product) & setProductOptions(response.data.product.attributes) & setActiveSection(response.data.product.category)
-            & setProductPrice(response.data.product.prices[activeCurrency]) & setProductSymbol(response.data.product.prices[activeCurrency].currency.symbol))
+            & setProductPrice(response.data.product.prices[activeCurrency]) & setProductSymbol(response.data.product.prices[activeCurrency].currency.symbol)
+            & setPassablePrice(response.data.product.prices))
         );
     },[activeCurrency])
 
@@ -41,12 +44,13 @@ const Product = ({ setActiveSection, activeCurrency }) => {
             return;
         }
         if(itemsToFill.every(x => x.every(a => a !== '')) === true){
-            increaseCartQuantity(params.id, itemsToFill);
+            // Generate a unique id, so you are able to add multiple of the same items
+            addToCart(Math.random().toString(16).slice(-12), itemsToFill, params.id, productGallery,
+                productInfo.name, productInfo.brand, passablePrice, productOptions);
         }else{
             alert("Fill out the specifications!");
         }
     }
-
     return(
         <div className={"product-page-wrapper"}>
             <div className={"product-image-box"}>
