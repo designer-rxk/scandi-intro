@@ -42,7 +42,7 @@
     color: rgba(0,0,0,0.9);
     width: calc(47.5% - 12rem);
     display: flex;
-    justify-content: end;
+    justify-content: flex-end;
     align-items: center;
     position: relative;
 }

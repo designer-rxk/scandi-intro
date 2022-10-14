@@ -9,6 +9,8 @@ const Navbar = ({ setActiveCurrency, activeSection, activeCurrency }) =>{
     const { openCart, cartQuantity } = useShoppingCart()
     const [Categories, setCategories] = useState([]);
     const [Currencies, setCurrencies] = useState([]);
+    const [selCurrency, setSelCurrency] = useState();
+
 
     const handleChange = (e) =>{
         console.log(e.target.selectedIndex);
@@ -16,12 +18,12 @@ const Navbar = ({ setActiveCurrency, activeSection, activeCurrency }) =>{
     }
 
     useEffect(() => {
-        document.getElementById("currSelect").selectedIndex = activeCurrency;
         fetch(process.env.REACT_APP_BACKEND_URL,{
             method: "POST",
             headers: {"Content-Type":"application/json"},
             body: JSON.stringify({query:CATEGORY_QUERY})
-        }).then(response => response.json()).then(response => setCurrencies(response.data.currencies) & setCategories(response.data.categories));
+        }).then(response => response.json()).then(response => setCurrencies(response.data.currencies) & setCategories(response.data.categories)
+        & setSelCurrency(response.data.currencies[activeCurrency].symbol));
     },[activeCurrency])
 
     return(
@@ -38,9 +40,9 @@ const Navbar = ({ setActiveCurrency, activeSection, activeCurrency }) =>{
                     {<BsFillFilterSquareFill/>}
                 </a>
                 <div className={"nav-curr-cart-container"}>
-                    <select name={"currencies"} id={"currSelect"} onChange={(e)=>handleChange(e)}>
+                    <select name={"currencies"} id={"currSelect"} onChange={(e)=>handleChange(e)} value={selCurrency}>
                         {Currencies.map((item) =>(
-                            <option className={"nav-curr"} key={item.label} value={item.label} >{item.symbol}</option>
+                            <option className={"nav-curr"} key={item.label} value={item.symbol} >{item.symbol}</option>
                             ))}
                     </select>
                     <button className={"nav-cart-n-item"} onClick={openCart}>

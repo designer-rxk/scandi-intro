@@ -1,2 +1,2 @@
 export { default as Navbar } from "./Navbar/Navbar";
-export { default as ShoppingCart} from "./ShoppingCart/ShoppingCart";
+export { default as ShoppingCart} from "./MiniCart/MiniCart";

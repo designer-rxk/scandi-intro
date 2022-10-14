@@ -3,7 +3,6 @@ import React, {useEffect, useState} from "react";
 import {SINGLE_PRODUCT_QUERY} from "../../utils/GraphQL/Query";
 import "./Product.css";
 import {useShoppingCart} from "../../context/StateContext";
-import cart from "../Cart/Cart";
 
 const Product = ({ setActiveSection, activeCurrency }) => {
     const params = useParams();
@@ -19,6 +18,8 @@ const Product = ({ setActiveSection, activeCurrency }) => {
     const len = productOptions.length -1;
     const itemsToFill = [];
 
+    console.log(productOptions)
+
     const checkProduct = (e, id) =>{
         for(let i=0;i<=len;i++){
             itemsToFill.push([productOptions[i].id,''])
@@ -26,6 +27,7 @@ const Product = ({ setActiveSection, activeCurrency }) => {
             if(productOptions[i].id === id) itemsToFill[i].splice(1,1,e.currentTarget.id);
         }
     }
+
     useEffect(() => {
         fetch(process.env.REACT_APP_BACKEND_URL,{
             method: "POST",
