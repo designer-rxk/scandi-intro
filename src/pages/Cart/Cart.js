@@ -25,25 +25,24 @@ const Cart = ({ setActiveSection, activeCurrency }) =>{
         setTotal(sum);
         setTax(total * 0.21);
 
-    },[ activeCurrency, cartQuantity, cartItems, increaseCartQuantity, decreaseCartQuantity, total])
+    },[ activeCurrency, cartItems, total])
 
-    useEffect(() => {
-        let temp = [];
-        for(let i=0;i<=cartItems.length-1; i++){
-            temp.push([cartItems[i].id, cartItems[i].imgGallery.length-1, 0, cartItems[i].imgGallery])
-        }
-    }, [cartItems])
-
-    const changeSpecs = (options, id, e) =>{
+    const changeSpecs = (options, id, e, objID, type) =>{
         const specs = getItemSpecs(id);
         for(let i=0;i<=specs.length-1; i++){
             if(specs[i][0] === options){
                 specs[i][1] = e.target.innerText;
+                if(type === "fill"){
+                    document.getElementById(objID).style.background = "#1D1F22";
+                    document.getElementById(objID).style.color = "white";
+                }
+                else if(type === "color"){
+                    document.getElementById(objID).style.border = "1px solid #5ECE7B";
+                }
             }
         }
         changeItemSpecs(id, specs);
     }
-    console.log("Current Cart Items: ",cartItems)
 
     return(
         <div>
@@ -55,27 +54,25 @@ const Cart = ({ setActiveSection, activeCurrency }) =>{
                             <p className={"cart-description"}>{items.brand}</p>
                             <p className={"cart-item-price"}>{items.prices[activeCurrency].currency.symbol} {items.prices[activeCurrency].amount}</p>
                             {items.options.map((options) =>(<div key={options.id}>
-                                {options.type === 'swatch' ? (<>
+                                    {options.type === 'swatch' ? (<>
+                                            <div className={"cart-options-name"}>{options.name}:</div>
+                                        <div className={"cart-options-break"}>
+                                            {options.items.map((i)=>(
+                                                <button key={i.id} className={"cart-options-buttons"} style={{background:i.value}} id={i.id+options.name}
+                                                onClick={(e) => changeSpecs(options.id, items.id, e, i.id+options.name, "color")}/>
+                                            ))}
+                                        </div></>
+                                    ) : (<>
                                         <div className={"cart-options-name"}>{options.name}:</div>
-                                    <div className={"cart-options-break"}>
-                                        {options.items.map((items)=>(
-                                            <button key={items.id} className={"cart-options-buttons"} style={{background:items.value}}
-                                            onClick={(e) => changeSpecs(options.id, items.id, e)}/>
-                                        ))}
-                                    </div></>
-                                ) : (<>
-                                    <div className={"cart-options-name"}>{options.name}:</div>
-                                    <div className={"cart-options-break"}>
-                                        {options.items.map((i, idx)=>(
-                                            <div>
-                                                <button onClick={(e)=> changeSpecs(options.id, items.id, e)} className={`cart-options-buttons 
-                                                    ${i.value === cartItems[idx].specifications[0][1] && 'active'}` } key={i.id}>
-                                                <div className={"cart-button-text"}>{i.value}{console.log("ASD",i.value, idx)}</div>
-                                                </button>
-                                            </div>
+                                        <div className={"cart-options-break"}>
+                                            {options.items.map((i)=>(
+                                                <button className={"cart-options-buttons"} id={i.id+options.name} key={i.id}
+                                                        onClick={(e)=> changeSpecs(options.id, items.id, e, i.id+options.name, "fill")}>
+                                                <div className={"cart-button-text"}>{i.value}</div>
+                                            </button>
                                         ))}
                                     </div>
-                                </>
+                                        </>
                                 )}
                                 </div>
                             ))}
@@ -88,11 +85,9 @@ const Cart = ({ setActiveSection, activeCurrency }) =>{
                                     <button className={"cart-inc-dec minus"} onClick={() =>decreaseCartQuantity(items.id)} ><AiOutlineMinus/></button>
                                 </div>
                                 <div className={"cart-gallery"}>
-                                    <div>
-                                        <img className={"cart-image"} src={items.imgGallery[0]} alt={""}/>
-                                        <button className={"cart-button prev"}>&lt;</button>
-                                        <button className={"cart-button next"}>&gt;</button>
-                                    </div>
+                                    <img src={items.imgGallery[0]} alt={items.id} className={"cart-image"}/>
+                                    <button className={"cart-button prev"}>&lt;</button>
+                                    <button className={"cart-button next"}>&gt;</button>
                                 </div>
                             </div>
                         </div>

@@ -14,17 +14,24 @@ const Product = ({ setActiveSection, activeCurrency }) => {
     const [productSymbol, setProductSymbol] = useState([]);
     const [passablePrice, setPassablePrice] = useState([]);
 
-    const { addToCart } = useShoppingCart();
+    const { addToCart, cartItems } = useShoppingCart();
     const len = productOptions.length -1;
     const itemsToFill = [];
 
-    console.log(productOptions)
-
-    const checkProduct = (e, id) =>{
+    const checkProduct = (e, id, objID, type) =>{
         for(let i=0;i<=len;i++){
             itemsToFill.push([productOptions[i].id,''])
             if(itemsToFill.length -1 > len) itemsToFill.splice(len+1);
-            if(productOptions[i].id === id) itemsToFill[i].splice(1,1,e.currentTarget.id);
+            if(productOptions[i].id === id) {
+                itemsToFill[i].splice(1, 1, e.target.innerText);
+                if(type === "fill"){
+                    document.getElementById(objID).style.background = "#1D1F22";
+                    document.getElementById(objID).style.color = "white";
+                }
+                else if(type ==="color"){
+                    document.getElementById(objID).style.border = "1px solid #5ECE7B";
+                }
+            }
         }
     }
 
@@ -76,14 +83,14 @@ const Product = ({ setActiveSection, activeCurrency }) => {
                             {items.type === 'swatch' ? (
                                 <div className={"product-options-box"}>
                                     {items.items.map((options)=>(
-                                    <button key={options.id} className={"product-options-items"} style={{background:options.value}} id={options.id}
-                                            onClick={(e)=>checkProduct(e,items.id)}/>
+                                    <button key={options.id} className={"product-options-items"} style={{background:options.value}} id={options.id+items.name}
+                                            onClick={(e)=>checkProduct(e,items.id, options.id+items.name, "color")}/>
                                 ))}
                                 </div>
                             ) : (
                                 <div className={"product-options-box"}>{items.items.map((options)=>(
-                                    <button key={options.id} className={"product-options-items"} id={options.id}
-                                            onClick={(e)=>checkProduct(e,items.id)}>{options.value}</button>
+                                    <button key={options.id} className={"product-options-items"} id={options.id+items.name}
+                                            onClick={(e)=>checkProduct(e,items.id, options.id+items.name, "fill")}>{options.value}</button>
                                 ))}
                                 </div>
                             )}

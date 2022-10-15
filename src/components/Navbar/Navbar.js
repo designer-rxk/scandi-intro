@@ -11,6 +11,8 @@ const Navbar = ({ setActiveCurrency, activeSection, activeCurrency }) =>{
     const [Currencies, setCurrencies] = useState([]);
     const [selCurrency, setSelCurrency] = useState();
 
+    const { cartItems } = useShoppingCart();
+    console.log("Current Cart Items: ",cartItems)
 
     const handleChange = (e) =>{
         console.log(e.target.selectedIndex);

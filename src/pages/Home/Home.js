@@ -11,7 +11,7 @@ const Home = ({ activeCurrency, setActiveSection, fetchVar }) => {
                 headers: {"Content-Type":"application/json"},
                 body: JSON.stringify({query:LOAD_ITEMS,variables:`{"input": {"title": "${fetchVar}"}}`})
             }).then(response => response.json()).then(response => setDisplayImages(response.data.category.products) & setActiveSection(response.data.category.name));
-        },[])
+        })
 
     const ChangeURL = (id) => {
         window.location.href=(`/product/${id}`);
