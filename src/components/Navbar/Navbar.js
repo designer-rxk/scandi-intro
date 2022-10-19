@@ -4,6 +4,7 @@ import "./Navbar.css"
 import {BsFillFilterSquareFill} from "react-icons/bs";
 import {FiShoppingCart} from "react-icons/fi";
 import {useShoppingCart} from "../../context/StateContext";
+import {Logo, Cart} from "../../utils/SVGs";
 
 const Navbar = ({ setActiveCurrency, activeSection, activeCurrency }) =>{
     const { openCart, cartQuantity } = useShoppingCart()
@@ -39,7 +40,7 @@ const Navbar = ({ setActiveCurrency, activeSection, activeCurrency }) =>{
                 })}
                 </div>
                 <a className={"nav-logo"} href={"/"}>
-                    {<BsFillFilterSquareFill/>}
+                    {<Logo/>}
                 </a>
                 <div className={"nav-curr-cart-container"}>
                     <select name={"currencies"} id={"currSelect"} onChange={(e)=>handleChange(e)} value={selCurrency}>
@@ -51,7 +52,10 @@ const Navbar = ({ setActiveCurrency, activeSection, activeCurrency }) =>{
                         {cartQuantity > 0 && (
                             <span className={"nav-cart-items"}>{cartQuantity}</span>
                         )}
-                        <FiShoppingCart/>
+                        <div className={"cart-enlarge"}>
+                            <Cart/>
+                        </div>
+
                     </button>
                 </div>
             </div>

@@ -44,20 +44,15 @@ export function ShoppingCartProvider({ children,activeCurrency }) {
         })
     }
 
-    const addToCart = (id, specifications, params, imgGallery, name, brand, prices, options) => {
+    const addToCart = (id, specifications, imgGallery, name, brand, prices, options) => {
+        console.log(id)
         setCartItems((currItems) => {
             if (currItems.find((item) => item.id === id) == null) {
-                console.log("Added '"+name+"' to the cart!")
-                return [...currItems, { id, quantity: 1, specifications, params, imgGallery, name, brand, prices, options }]
+                return [...currItems, { id, quantity: 1, specifications, imgGallery, name, brand, prices, options }]
             } else {
                 return currItems.map((item) => {
-                    console.log("Added '"+name+"' to the cart!")
                     if (item.id === id) {
-                        if((JSON.stringify(item.specifications) === JSON.stringify(specifications))){
-                            return { ...item, quantity: item.quantity + 1, specifications, params, imgGallery, name, brand, prices, options }
-                        }else{
-                            return [...currItems, { id, quantity: 1, specifications, params, imgGallery, name, brand, prices, options }]
-                        }
+                        return { ...item, quantity: item.quantity + 1, specifications, imgGallery, name, brand, prices, options }
                     } else {
                         return item
                     }

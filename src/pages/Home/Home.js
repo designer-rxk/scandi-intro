@@ -1,16 +1,23 @@
 import React, {useEffect, useState} from "react";
 import "./Home.css";
 import { LOAD_ITEMS } from "../../utils/GraphQL/Query";
+import {useParams} from "react-router-dom";
 
-const Home = ({ activeCurrency, setActiveSection, fetchVar }) => {
+const Home = ({ activeCurrency, setActiveSection }) => {
     const [displayImages, setDisplayImages] = useState([]);
+    const params = useParams();
+    const [fetchVar, setFetchVar] = useState('');
+
+    useEffect(()=>{
+        if(params) setFetchVar(params.category);
+    },[])
 
         useEffect(() => {
             fetch(process.env.REACT_APP_BACKEND_URL,{
                 method: "POST",
                 headers: {"Content-Type":"application/json"},
                 body: JSON.stringify({query:LOAD_ITEMS,variables:`{"input": {"title": "${fetchVar}"}}`})
-            }).then(response => response.json()).then(response => setDisplayImages(response.data.category.products) & setActiveSection(response.data.category.name));
+            }).then(response => response?.json()).then(response => setDisplayImages(response.data.category.products) & setActiveSection(response.data.category.name));
         })
 
     const ChangeURL = (id) => {

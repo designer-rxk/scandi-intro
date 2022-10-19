@@ -25,6 +25,7 @@ const Checkout = ({setActiveSection, activeCurrency}) =>{
     console.log(cartItems)
     return(
         <div className={"check-wrapper"}>
+            {cartQuantity > 0 ? (<div>
             <div className={"check-title"}>Checkout</div>
             <div className={"check-main"}>
                 {cartItems.map((items,index) =>(
@@ -55,6 +56,15 @@ const Checkout = ({setActiveSection, activeCurrency}) =>{
                     {total.toFixed(2)}</span></p>
                 <a className={"cart-order-button"} href={"/"}>RETURN</a>
             </div>
+            </div>
+                ) :
+                <div>
+                    <h1 className={"cart-error-title"}>Your cart seems to be empty!</h1>
+                    <p className={"cart-error-desc"}>Add some products to continue..</p>
+                    <a className={"cart-order-button"} href={"/"}>RETURN</a>
+                </div>
+                }
+
         </div>
     )
 }

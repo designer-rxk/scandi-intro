@@ -45,7 +45,7 @@ const Cart = ({ setActiveSection, activeCurrency }) =>{
     }
 
     return(
-        <div>
+        <div>{cartQuantity > 0 ? <div>
             <div className={"cart-title"}>CART</div>
                 {cartItems.map((items) =>(
                     <div key={items.id} className={"cart-main"}>
@@ -100,6 +100,12 @@ const Cart = ({ setActiveSection, activeCurrency }) =>{
                     {total.toFixed(2)}</span></p>
                 <a className={"cart-order-button"} href={"/checkout"}>ORDER</a>
             </div>
+        </div> :
+            <div>
+                <h1 className={"cart-error-title"}>Your cart seems to be empty!</h1>
+                <p className={"cart-error-desc"}>Add some products to continue..</p>
+                <a className={"cart-order-button"} href={"/"}>RETURN</a>
+        </div>}
         </div>
     )
 }

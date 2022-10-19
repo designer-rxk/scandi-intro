@@ -60,6 +60,7 @@
     align-items: center;
     font-size: 1rem;
     marin-left:1rem;
+    z-index: 200;
 }
 .theme-construction {
 }
@@ -86,4 +87,10 @@ select{
 .active{
     color:var(--green);
     border-bottom: var(--green) 5px solid;
+}
+.cart-enlarge{
+    transform: scale(2);
+    display: flex;
+    justify-content: center;
+    z-index: 100;
 }

@@ -17,8 +17,12 @@ const Product = ({ setActiveSection, activeCurrency }) => {
     const { addToCart, cartItems } = useShoppingCart();
     const len = productOptions.length -1;
     const itemsToFill = [];
+    let uuid = '';
 
     const checkProduct = (e, id, objID, type) =>{
+
+
+        console.log(objID)
         for(let i=0;i<=len;i++){
             itemsToFill.push([productOptions[i].id,''])
             if(itemsToFill.length -1 > len) itemsToFill.splice(len+1);
@@ -53,8 +57,12 @@ const Product = ({ setActiveSection, activeCurrency }) => {
             return;
         }
         if(itemsToFill.every(x => x.every(a => a !== '')) === true){
-            // Generate a unique id, so you are able to add multiple of the same items
-            addToCart(Math.random().toString(16).slice(-12), itemsToFill, params.id, productGallery,
+            let uuid = '';
+            console.log(itemsToFill)
+            for(let i=0;i<=itemsToFill.length-1;i++){
+                uuid = uuid+itemsToFill[i].toString()
+            }
+            addToCart(params.id+"-"+uuid, itemsToFill, productGallery,
                 productInfo.name, productInfo.brand, passablePrice, productOptions);
         }else{
             alert("Fill out the specifications!");
@@ -99,7 +107,7 @@ const Product = ({ setActiveSection, activeCurrency }) => {
                         <div className={"product-options-name"}>PRICE:</div>
                         <div className={"product-price"}>{productSymbol} {productPrice.amount}</div>
                         <div className={"product-center"}>
-                            <button className={"product-add"} onClick={()=>SendToCart()}>ADD TO CART</button>
+                            <button className={"product-add"} onClick={()=>SendToCart(params.id)}>ADD TO CART</button>
                         </div>
                         <div className={"product-description text"} dangerouslySetInnerHTML={{ __html: productInfo.description}}/>
                     </div>

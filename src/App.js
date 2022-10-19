@@ -15,13 +15,11 @@ const App = () => {
             <Navbar activeCurrency={activeCurrency} setActiveCurrency={setActiveCurrency} activeSection={activeSection} activeCurrency={activeCurrency}/>
               <div className={"container"}>
               <Routes>
-                <Route path={"/"} element={<Home activeCurrency={activeCurrency} setActiveSection={setActiveSection} fetchVar={""}/>}/>
-                <Route path={"/all"} element={<Home activeCurrency={activeCurrency} setActiveSection={setActiveSection} fetchVar={""}/>}/>
-                <Route path={"/clothes"} element={<Home activeCurrency={activeCurrency} setActiveSection={setActiveSection} fetchVar={"clothes"}/>}/>
-                <Route path={"/tech"} element={<Home activeCurrency={activeCurrency} setActiveSection={setActiveSection} fetchVar={"tech"}/>}/>
+                <Route path={"/"} element={<Home activeCurrency={activeCurrency} setActiveSection={setActiveSection}/>}/>
+                <Route path={"/:category"} element={<Home activeCurrency={activeCurrency} setActiveSection={setActiveSection}/>}/>
                 <Route path={"/product/:id"} element={<Product setActiveSection={setActiveSection} activeCurrency={activeCurrency}/>}/>
                 <Route path={"/cart"} element={<Cart activeCurrency={activeCurrency} setActiveSection={setActiveSection}/>}/>
-                  <Route path={"/checkout"} element={<Checkout activeCurrency={activeCurrency} setActiveSection={setActiveSection}/>}/>
+                <Route path={"/checkout"} element={<Checkout activeCurrency={activeCurrency} setActiveSection={setActiveSection}/>}/>
               </Routes>
         </div>
       </ShoppingCartProvider>

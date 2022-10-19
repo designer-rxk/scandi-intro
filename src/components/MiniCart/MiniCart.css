@@ -197,3 +197,16 @@
     align-items: center;
     justify-content: center;
 }
+.mini-error-wrapper{
+    display: block;
+    width:100%;
+    text-align: center;
+}
+.mini-error-title{
+    font-weight: 600;
+    font-size: 16px;
+}
+.mini-error-desc{
+    font-weight: 400;
+    font-size: 14px;
+}

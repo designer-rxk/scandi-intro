@@ -41,6 +41,7 @@ const MiniCart = ({setIsOpen, activeCurrency}) =>{
     return(
         <div className={"mini-wrapper"} onClick={() => setIsOpen(false)}>
             <div className={"mini-background"} onClick={(e) => e.stopPropagation()}>
+                {cartQuantity > 0 ? (<div>
                 <div className={"mini-text-wrapper"}>
                     <span className={"mini-bold"}>My Bag</span><span className={"mini-items"}>, {cartQuantity} items</span>
                 </div>
@@ -104,6 +105,13 @@ const MiniCart = ({setIsOpen, activeCurrency}) =>{
                         <a className={"mini-check-out"} href={"/checkout"}>CHECK OUT</a>
                     </div>
                 </div>
+                </div>
+                ) :
+                    <div className={"mini-error-wrapper"}>
+                        <div className={"mini-error-title"}>Your cart seems to be empty!</div>
+                        <p className={"mini-error-desc"}>Add some products to continue..</p>
+                    </div>
+                }
             </div>
         </div>
     )
