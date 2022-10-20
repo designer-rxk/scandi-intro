@@ -60,17 +60,26 @@ const Product = ({ setActiveSection, activeCurrency }) => {
     },[activeCurrency])
 
     const SendToCart = () => {
+        let sum = 0;
+
         if(test.length === 0 && len >= 0) {
             alert("Fill out the specifications!");
             return;
         }
-        if(test.every(x => x.items.every(a => a !== '')) === true){
+        for(let j=0;j<=test.length-1; j++){
+            for(let k=0;k<=test[j].items.length-1;k++){
+                if(test[j].items[k][2] === 1){
+                    sum++;
+                }
+            }
+        }
+
+        if(sum === test.length){
             let uuid = '';
             for(let i=0;i<=test.length-1;i++){
                 uuid = uuid+test[i].items.toString()
             }
-            addToCart(params.id+"-"+uuid, test, productGallery,
-                productInfo.name, productInfo.brand, passablePrice, productOptions);
+            addToCart(params.id+"-"+uuid, test, productGallery, productInfo.name, productInfo.brand, passablePrice, productOptions);
         }else{
             alert("Fill out the specifications!");
         }

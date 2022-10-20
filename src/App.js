@@ -15,7 +15,7 @@ const App = () => {
             <Navbar activeCurrency={activeCurrency} setActiveCurrency={setActiveCurrency} activeSection={activeSection} activeCurrency={activeCurrency}/>
               <div className={"container"}>
               <Routes>
-                <Route exact path={"/"} element={<Home activeCurrency={activeCurrency} setActiveSection={setActiveSection}/>}/>
+                <Route path={"/"} element={<Home activeCurrency={activeCurrency} setActiveSection={setActiveSection}/>}/>
                 <Route path={"/:category"} element={<Home activeCurrency={activeCurrency} setActiveSection={setActiveSection}/>}/>
                 <Route path={"/product/:id"} element={<Product setActiveSection={setActiveSection} activeCurrency={activeCurrency}/>}/>
                 <Route path={"/cart"} element={<Cart activeCurrency={activeCurrency} setActiveSection={setActiveSection}/>}/>
