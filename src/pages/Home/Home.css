@@ -10,7 +10,6 @@
 }
 .home-feat-item-box{
     position: relative;
-    cursor: pointer;
     background: none;
     border: none;
     height:26.5vw;
@@ -28,6 +27,7 @@
     display: flex;
     justify-content: center;
     margin:0.5rem;
+    position: relative;
 }
 .home-box-wrapper{
     display: grid;
@@ -39,6 +39,7 @@
     width:100%;
     height:100%;
     object-fit: scale-down;
+    z-index: 100;
 }
 .home-item-desc{
     padding: 0 0.5rem;
@@ -78,4 +79,37 @@ a{
     justify-content: center;
     font-size: 2rem;
     font-weight: 200;
+    z-index: 300;
+}
+.home-quick-add-box{
+    position: absolute;
+    background: rgba(57, 55, 72, 0.22);
+    z-index: 200;
+    width:100%;
+    height:100%;
+    border-radius: 5px;
+    left:0;
+}
+.quick-add-button{
+    background: #5ECE7B;
+    border: none;
+    width:52px;
+    height:52px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    transition-duration: 0.3s;
+    cursor: pointer;
+}
+.quick-add-button:hover{
+    transform: scale(1.1);
+    background: black;
+}
+.quick-add-position{
+    position: absolute;
+    z-index: 200;
+    display: flex;
+    top:95%;
+    left:calc(95% - 52px);
 }

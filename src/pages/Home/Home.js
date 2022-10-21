@@ -1,7 +1,8 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import "./Home.css";
 import { LOAD_ITEMS } from "../../utils/GraphQL/Query";
-import {useParams} from "react-router-dom";
+import { useParams } from "react-router-dom";
+import { QuickAdd } from "../../utils/SVGs";
 
 const Home = ({ activeCurrency, setActiveSection }) => {
     const [displayImages, setDisplayImages] = useState([]);
@@ -10,14 +11,14 @@ const Home = ({ activeCurrency, setActiveSection }) => {
 
     useEffect(()=>{
         if(params) setFetchVar(params.category);
-    },[])
+    })
 
         useEffect(() => {
             fetch(process.env.REACT_APP_BACKEND_URL,{
                 method: "POST",
                 headers: {"Content-Type":"application/json"},
                 body: JSON.stringify({query:LOAD_ITEMS,variables:`{"input": {"title": "${fetchVar}"}}`})
-            }).then(response => response?.json()).then(response => setDisplayImages(response.data.category.products) & setActiveSection(response.data.category.name));
+            }).then(response => response?.json()).then(response => setDisplayImages(response?.data?.category.products) & setActiveSection(response.data.category.name));
         })
 
     const ChangeURL = (id) => {
@@ -32,9 +33,14 @@ const Home = ({ activeCurrency, setActiveSection }) => {
                 <div className={"home-box-wrapper"}>
                     {displayImages.map((item) =>(
                         (item.inStock) === true ? (
-                            <button className={"home-feat-item-box"} key={item.id} onClick={() => ChangeURL(item.id)}>
+                            <div className={"home-feat-item-box"} key={item.id}>
                                 <div className={"home-item-img"}>
                                     <img src={item.gallery[0]} alt={item.id} className={"home-feat-img"}/>
+                                    <div className={"quick-add-position"} onClick={() => ChangeURL(item.id)}>
+                                        <div className={"quick-add-button"}>
+                                            <QuickAdd/>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div className={"home-item-desc home-name"}>
                                     {item.name}
@@ -42,7 +48,7 @@ const Home = ({ activeCurrency, setActiveSection }) => {
                                 <div className={"home-item-desc home-price"}>
                                     {item.prices[activeCurrency].currency.symbol}{item.prices[activeCurrency].amount}
                                 </div>
-                            </button>
+                            </div>
                             ) : (
                             <a className={"home-feat-item-box"} key={item.id}>
                                 <div className={"not-in-stock"}>

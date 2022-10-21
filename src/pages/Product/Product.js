@@ -110,7 +110,7 @@ const Product = ({ setActiveSection, activeCurrency }) => {
                                     {items.items.map((options)=>(
                                     <button key={options[1]} className={"product-options-items"}
                                             style={options[2] === 1 ? {background:options[1],
-                                                outline: "1px solid #5ECE7B", outlineOffset: "1px"} : {background:options[1]}} id={options.id}
+                                                outline: "1px solid #5ECE7B", outlineOffset: "1px", border:"none"} : {background:options[1]}} id={options.id}
                                             onClick={(e)=>checkProduct(e,items.id, options[1], "color")}></button>
                                 ))}
                                 </div>
