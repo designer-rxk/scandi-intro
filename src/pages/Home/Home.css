@@ -28,6 +28,10 @@
     justify-content: center;
     margin:0.5rem;
     position: relative;
+    transition-duration: 0.3s;
+}
+.quick-add-position{
+    display: none;
 }
 .home-box-wrapper{
     display: grid;
@@ -109,7 +113,10 @@ a{
 .quick-add-position{
     position: absolute;
     z-index: 200;
-    display: flex;
+    display: none;
     top:95%;
     left:calc(95% - 52px);
+}
+.home-item-img:hover > div:nth-child(2){
+    display: flex;
 }

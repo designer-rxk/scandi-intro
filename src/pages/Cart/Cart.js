@@ -4,7 +4,7 @@ import {AiOutlinePlus, AiOutlineMinus} from "react-icons/ai";
 import {useEffect, useState} from "react";
 
 const Cart = ({ activeCurrency }) =>{
-    const {  cartQuantity, cartItems, increaseCartQuantity, decreaseCartQuantity, changeItemSpecs, getItemSpecs } = useShoppingCart()
+    const {  cartQuantity, cartItems, increaseCartQuantity, decreaseCartQuantity } = useShoppingCart()
     const [total, setTotal] = useState(0);
     const [tax, setTax] = useState(0);
 
@@ -23,8 +23,9 @@ const Cart = ({ activeCurrency }) =>{
 
     },[ activeCurrency, cartItems, total])
 
-    const Carousel = ({id, gallery} ) => {
+    const Carousel = ({id, gallery } ) => {
         const [index, setIndex] = useState(0);
+        console.log(index)
 
         const evalPrev = () =>{
             if( index === 0 ){

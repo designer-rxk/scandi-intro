@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./Home.css";
 import { LOAD_ITEMS } from "../../utils/GraphQL/Query";
 import { useParams } from "react-router-dom";
-import { QuickAdd } from "../../utils/SVGs";
+import { ViewButton } from "../../utils/SVGs";
 
 const Home = ({ activeCurrency, setActiveSection }) => {
     const [displayImages, setDisplayImages] = useState([]);
@@ -38,7 +38,7 @@ const Home = ({ activeCurrency, setActiveSection }) => {
                                     <img src={item.gallery[0]} alt={item.id} className={"home-feat-img"}/>
                                     <div className={"quick-add-position"} onClick={() => ChangeURL(item.id)}>
                                         <div className={"quick-add-button"}>
-                                            <QuickAdd/>
+                                            <ViewButton/>
                                         </div>
                                     </div>
                                 </div>
